@@ -9,6 +9,8 @@ import org.example.workWithFileService.WorkWithFileServiceImpl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class UserServiceStreamImpl implements UserService {
@@ -20,8 +22,19 @@ public class UserServiceStreamImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(User user) {
-
+    public List<User> deleteUser(String lastName) {
+        List<User> listAfterDelete = new ArrayList<>();
+        List<User> allUsers = getAllUsers();
+        System.out.println("Получили лист со всеми юзерами: " + getAllUsers());
+        for (User user : allUsers) {
+            if (user.getLastName().equals(lastName)) {
+                System.out.println("Нашли совпадение по: " + lastName + "\n" + "Пропускаем  его  добавление");
+                continue;
+            }
+            listAfterDelete.add(user);
+        }
+        System.out.println("Получили итоговый список без запрашиваемого пользователя: " + allUsers);
+        return listAfterDelete;
     }
 
     @Override
@@ -49,12 +62,86 @@ public class UserServiceStreamImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user) {
-
+    public List<User> updateUser(String firstParam, String secondParam) {
+        List<User> listAfterDelete = new ArrayList<>();
+        List<User> allUsers = getAllUsers();
+        System.out.println("Получили лист со всеми юзерами: " + getAllUsers());
+        System.out.println("Сравниваем параметр пользователя по запрашиваемой фамилии");
+        for (User user : allUsers) {
+            if (user.getLastName().equals(firstParam)) {
+                System.out.println("Нашли совпадение по: " + firstParam + "\n" + "Редактируем его");
+                user.setLastName(secondParam);
+            }
+            listAfterDelete.add(user);
+        }
+        System.out.println("Получили итоговый список: " + allUsers);
+        return listAfterDelete;
     }
 
     @Override
-    public void createUser(User user) {
+    public User createUser( ) {
+        User createdUser = null;
+        String firstname;
+        String lastname;
+        String patronymic;
+        LocalDate birthday;
+        String sex;
+        int year = 1900 ;
+        int month = 1;
+        int day = 1;
+        try(Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Введите имя пользователя: ");
+            firstname = scanner.nextLine();
+            System.out.println("Введите фамилию пользователя: ");
+            lastname = scanner.nextLine();
+            System.out.println("Введите отчество пользователя: ");
+            patronymic = scanner.nextLine();
+            System.out.println("Введите год рождения пользователя(в числовом формате): ");
+            while (scanner.hasNext()){
+                year = scanner.nextInt();
+                if(year < 1900 || year > 2023){
+                    System.out.println("Введите реальный год рождения (от 1900 до 2023)");
+                }
+                break;
+            }
+            System.out.println("Введите месяц рождения (в числовом формате) : ");
+            while (scanner.hasNext()){
+                month = scanner.nextInt();
+                if(month < 1 || month > 12){
+                    System.out.println("Введите реальный месяц (от 1 до 12)");
+                }
+                break;
+            }
+
+            System.out.println("Введите день рождения:");
+            while (scanner.hasNext()){
+                day = scanner.nextInt();
+                if(day < 1 || day > 31){
+                    System.out.println("Введите реальный месяц (от 1 до 31)");
+                }
+                break;
+            }
+            System.out.println("Введите пол пользователя (в формате: М, м , Ж , ж)");
+            while (scanner.hasNext()){
+                Character sexInput = scanner.findInLine(".").charAt(0);
+                Character chJUpper = 'Ж';
+                Character chJ = 'ж';
+                Character chMUpper = 'М';
+                Character chM = 'м';
+                if(!Objects.equals(sexInput,chJUpper) || !Objects.equals(sexInput,chJ) || !Objects.equals(sexInput,chMUpper) || !Objects.equals(sexInput,chM)) {
+                    System.out.println("Введите реальный пол (Ж или М, ж или м)");
+                }
+                break;
+            }
+            sex = scanner.nextLine();
+            createdUser = new User(firstname, lastname, patronymic, LocalDate.of(year,month,day),sex);
+            System.out.println(createdUser);
+
+        }catch (Exception e){
+            System.out.println("Ошибка при считывании с консоли при создании пользователя");
+        }
+
+        return createdUser;
 
     }
 
