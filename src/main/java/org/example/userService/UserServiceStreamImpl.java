@@ -32,8 +32,20 @@ public class UserServiceStreamImpl implements UserService {
     }
 
     @Override
-    public User getUser() {
-        return null;
+    public User getUser(String lastNameSearch) {
+        User user = null;
+        List<User> allUsers = getAllUsers();
+        System.out.println("Получили лист со всеми юзерами: " + getAllUsers());
+        System.out.println("Сравниваем параметр пользователя по запрашиваемой фамилии");
+        for (User elementOfUsers : allUsers) {
+            System.out.println("Проходимся циклом по списку, элемент из списка = " + elementOfUsers);
+            System.out.println(elementOfUsers.getLastName());
+            if (elementOfUsers.getLastName().equals(lastNameSearch)) {
+                user = elementOfUsers;
+                System.out.println("Нашли  пользователя по фамилии: " + user);
+            }
+        }
+        return user;
     }
 
     @Override
@@ -54,20 +66,17 @@ public class UserServiceStreamImpl implements UserService {
                 "Nailevich",
                 LocalDate.of(1994,6,1),
                 "M"));
-        myUsersList.add(new User("Mukhametzyanov",
-                "Ruslan",
+        myUsersList.add(new User("Ruslan",
+                "Mukametzyanov",
                 "Albertovich",
                 LocalDate.of(1991,12,5),
                 "M"));
-        myUsersList.add(new User("Rakhimov",
-                "Dzhamil",
+        myUsersList.add(new User("Dzhamil",
+                "Rakhimov",
                 "Ilshatovich",
                 LocalDate.of(1992,7,5),
                 "M"));
-//        System.out.println("check");
-//        System.out.println(myUsersList);
-//        System.out.println("after check");
-        List<String> usersToString = myUsersList.stream().map(user -> user.toString()).collect(Collectors.toList());
+        List<String> usersToString = myUsersList.stream().map(User::toString).collect(Collectors.toList());
         System.out.println("Print list usersToString");
         System.out.println(usersToString);
 

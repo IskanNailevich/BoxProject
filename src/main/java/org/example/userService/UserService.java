@@ -10,7 +10,7 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User getUser();
+    User getUser(String string);
 
     void updateUser(User user);
 

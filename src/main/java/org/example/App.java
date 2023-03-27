@@ -14,8 +14,8 @@ public class App {
     public static void main( String[] args ) {
         UserService userService = new UserServiceStreamImpl();
         userService.createUsers(null);
-
         System.out.println(userService.getAllUsers());
-
+        String rakhimov = userService.getUser("Rakhimov").getFirstName();
+        System.out.println(rakhimov);
     }
 }
