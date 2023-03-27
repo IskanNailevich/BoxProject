@@ -1,10 +1,10 @@
 package org.example;
 
-import org.example.service.UserService;
-import org.example.service.UserServiceStreamImpl;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.example.convertService.ListConverter;
+import org.example.convertService.ListConverterImpl;
+import org.example.userService.UserService;
+import org.example.userService.UserServiceStreamImpl;
+import org.example.workWithFileService.WorkWithFileServiceImpl;
 
 /**
  * Hello world!
@@ -14,6 +14,8 @@ public class App {
     public static void main( String[] args ) {
         UserService userService = new UserServiceStreamImpl();
         userService.createUsers(null);
-        userService.getAllUsers();
+
+        System.out.println(userService.getAllUsers());
+
     }
 }

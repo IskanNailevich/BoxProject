@@ -1,7 +1,6 @@
-package org.example;
+package org.example.workWithFileService;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,11 +17,22 @@ public class WorkWithFileServiceImpl implements WorkWithFIleService {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME));
             String result = bufferedReader.readLine();
-            String[] splitParam = result.split(";");
+            System.out.println("Строка после вычитки " + result);
+//            System.out.println("bfBEFORE");
+//            System.out.println(result);
+//            System.out.println("after");
+            String[] splitParam = result.split(";", 0);
+            System.out.println("Печатаем массив после сплита: ");
+            for (int i = 0; i < splitParam.length; i++) {
+                String s = splitParam[i];
+                System.out.println("Элемент массива = " + s);
+            }
+//            System.out.println("afterSPLIT");
             resultList = Arrays.stream(splitParam).collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        //System.out.println(resultList);
         return resultList;
     }
 

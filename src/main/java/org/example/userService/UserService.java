@@ -1,4 +1,4 @@
-package org.example.service;
+package org.example.userService;
 
 import org.example.User;
 
