@@ -11,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 public class User {
 
@@ -23,5 +22,14 @@ public class User {
 
     private String sex;
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                ", birthdate=" + birthdate +
+                ", sex='" + sex + '\'' +
+                "};";
+    }
 }

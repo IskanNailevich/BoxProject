@@ -1,18 +1,29 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WorkWithFileServiceImpl implements WorkWithFIleService {
+
+    public  static final String FILE_NAME = "/Users/ruslanmuhametzanov/ideaFiles/output";
 
 
     @Override
     public List<String> getListFromFile() {
-        return null;
+
+        List<String> resultList;
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME));
+            String result = bufferedReader.readLine();
+            String[] splitParam = result.split(";");
+            resultList = Arrays.stream(splitParam).collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return resultList;
     }
 
     @Override
@@ -20,7 +31,7 @@ public class WorkWithFileServiceImpl implements WorkWithFIleService {
 
         BufferedWriter bufferedWriter = null;
         try {
-            bufferedWriter = new BufferedWriter(new FileWriter("/Users/ruslanmuhametzanov/ideaFiles/output"));
+            bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME));
             bufferedWriter.write(userInfo);
             bufferedWriter.close();
         } catch (IOException e) {

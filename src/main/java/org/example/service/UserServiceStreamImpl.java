@@ -16,8 +16,6 @@ public class UserServiceStreamImpl implements UserService {
         workWithFIleService = new WorkWithFileServiceImpl();
     }
 
-    private WorkWithFIleService workWithFIle = new WorkWithFileServiceImpl();
-
     @Override
     public void deleteUser(User user) {
 
@@ -25,6 +23,8 @@ public class UserServiceStreamImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
+        List<String> listFromFile = workWithFIleService.getListFromFile();
+        listFromFile.forEach(System.out::println);
         return null;
     }
 
