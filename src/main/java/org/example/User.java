@@ -1,4 +1,7 @@
 package org.example;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -6,6 +9,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
+@Setter
+@Getter
 public class User {
     public String firstName;
 
@@ -28,55 +33,6 @@ public class User {
         this.sex = sex;
         this.birthdate = birthdate;
     }
-
-    public String getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getSecondName() {
-        return secondName;
-    }
-
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-
-    public String getPatronymic() {
-        return patronymic;
-    }
-
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -93,7 +49,9 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(firstName, user.firstName) && Objects.equals(secondName, user.secondName) && Objects.equals(patronymic, user.patronymic) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(sex, user.sex) && Objects.equals(birthDateFormat, user.birthDateFormat) && Objects.equals(birthdate, user.birthdate);
+        return Objects.equals(firstName, user.firstName) && Objects.equals(secondName, user.secondName) &&
+                Objects.equals(patronymic, user.patronymic) && Objects.equals(phoneNumber, user.phoneNumber) &&
+                Objects.equals(sex, user.sex) && Objects.equals(birthDateFormat, user.birthDateFormat) && Objects.equals(birthdate, user.birthdate);
     }
 
     @Override
