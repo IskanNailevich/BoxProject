@@ -12,7 +12,7 @@ public interface UserService {
 
     User getUser(String string);
 
-    List<User> updateUser(String firstParam, String secondParam);
+    public void update();
 
 
 

@@ -182,7 +182,6 @@ public class CreateUserServiceImpl implements CreateUserService {
 
     @Override
     public void pushCreatedUsersToFile() {
-
         List<User> myUsersList = new ArrayList<>();
         myUsersList.add(new User("Iskander",
                 "Zagidullin",
