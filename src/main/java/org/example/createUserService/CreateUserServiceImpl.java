@@ -14,6 +14,10 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class CreateUserServiceImpl implements CreateUserService {
+    private static final String MALE = "М";
+    private static final String MALE_LOWERCASE = "м";
+    private static final String FEMALE = "Ж";
+    private static final String FEMALE_LOWERCASE = "ж";
     public final String DATE_PATTERN = "yyyy-M-d";
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN, Locale.ENGLISH);
     LocalDate localDate;
@@ -31,8 +35,11 @@ public class CreateUserServiceImpl implements CreateUserService {
     }
 
     public String interUserSexParam(){
+        System.out.println("Начало работы метода по параметру пола");
+        System.out.println("Введите ваш пол (М или Ж)");
         String inputSex = null;
         inputSex = readFromConsole();
+        System.out.println("Успешно прочитали параметр пола: " + inputSex);
         return inputSex;
     }
     public String[] interUserStringsParams() {
@@ -107,7 +114,7 @@ public class CreateUserServiceImpl implements CreateUserService {
 
 
     public boolean checkUserBirthdayParams(int[] checkUserBirthdayParams){
-        System.out.println("Начало проверки");
+        System.out.println("Начало проверки массива чисел");
         System.out.println("проверяем массива чисел даты рождения на соотвтествие с реальными датами");
         String tmpDataCheck = "";
         String delimeter = "-";
@@ -133,62 +140,38 @@ public class CreateUserServiceImpl implements CreateUserService {
 
     }
 
-    
-    @Override
-    public User createUser() {
-        User createdUser = null;
-        String firstname;
-        String lastname;
-        String patronymic;
-        int year = 1900;
-        int month = 1;
-        int day = 1;
-        LocalDate birthday = LocalDate.of(year, month, day);
-        String sex = null;
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Введите имя пользователя: ");
-            firstname = scanner.nextLine();
-            System.out.println("Введите фамилию пользователя: ");
-            lastname = scanner.nextLine();
-            System.out.println("Введите отчество пользователя: ");
-            patronymic = scanner.nextLine();
-            System.out.println("Введите год рождения пользователя(в числовом формате): ");
-            while (scanner.hasNext()) {
-                year = scanner.nextInt();
-                if (year < 1900 || year > 2023) {
-                    System.out.println("Введите реальный год рождения (от 1900 до 2023)");
-                }
-                break;
-            }
-            System.out.println("Введите месяц рождения (в числовом формате) : ");
-            while (scanner.hasNext()) {
-                month = scanner.nextInt();
-                if (month < 1 || month > 12) {
-                    System.out.println("Введите реальный месяц (от 1 до 12)");
-                }
-                break;
-            }
-            System.out.println("Введите день рождения:");
-            while (scanner.hasNext()) {
-                day = scanner.nextInt();
-                if (day < 1 || day > 31) {
-                    System.out.println("Введите реальный месяц (от 1 до 31)");
-                }
-                break;
-            }
-            System.out.println("Введите пол пользователя (в формате: М, Ж)");
-            while (scanner.hasNext()) {
-                sex = scanner.nextLine();
-                if (!sex.equals("M") && !sex.equals("Ж")) {
-                    System.out.println("Введите верное значение пола: М или Ж");
-                }
-                break;
-            }
-            createdUser = new User(firstname, lastname, patronymic, birthday, sex);
-            System.out.println(createdUser);
-        } catch (Exception e) {
-            System.out.println("Ошибка при считывании с консоли при создании пользователя");
+    public boolean checkUserSexParam(String checkUserSexParam){
+        System.out.println("Начало проверки параметра пола(sex)");
+        if (checkUserSexParam.equals(MALE) || checkUserSexParam.equals(FEMALE) ||
+                checkUserSexParam.equals(MALE_LOWERCASE) || checkUserSexParam.equals(FEMALE_LOWERCASE)) {
+            System.out.println("Успешно проверили параметр пола");
+            return true;
+        } else {
+            System.out.println("Ошибка, параметр не верный");
+            return false;
         }
+    }
+
+    public User createUser(){
+        String[] stringsUserInfo = interUserStringsParams();
+        int[] birthdayUserInfo = interUserBirthdayParams();
+        String sexUserInfo = interUserSexParam();
+        while(!checkUserStringsParams(stringsUserInfo)){
+            System.out.println("Ошибка в ФИО параметрах при создании пользователя");
+            stringsUserInfo=interUserStringsParams();
+        }
+        while(!checkUserBirthdayParams(birthdayUserInfo)){
+            System.out.println("Ошибка в дате рождения при создании пользователя");
+            birthdayUserInfo = interUserBirthdayParams();
+        }
+        while (!checkUserSexParam(sexUserInfo)){
+            System.out.println("Ошибка в параметре пола при создании пользователя");
+            sexUserInfo = interUserSexParam();
+        }
+        System.out.println("Все параметры успешно прошли проверку, создаем пользователя");
+        User createdUser = new User(stringsUserInfo[0],stringsUserInfo[1],stringsUserInfo[2],
+                LocalDate.of(birthdayUserInfo[0], birthdayUserInfo[1],birthdayUserInfo[2]),sexUserInfo);
+
         return createdUser;
     }
 

@@ -20,11 +20,8 @@ public class App {
         UserService userService = new UserServiceStreamImpl();
         userService.createUsers(null);
         CreateUserServiceImpl createUserService = new CreateUserServiceImpl();
-        if(createUserService.checkUserBirthdayParams(createUserService.interUserBirthdayParams())){
-            System.out.println("OK");
-        }else{
-            System.out.println("NE OK");
-        }
+        System.out.println(createUserService.createUser());
+
         //createUserService.interUserStringsParams();
 
 
