@@ -1,61 +1,35 @@
 package org.example;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Objects;
 
-@Setter
+
+
+@AllArgsConstructor
 @Getter
+@Setter
+@EqualsAndHashCode
 public class User {
-    public String firstName;
 
-    public String secondName;
+    private String firstName;
+    private String lastName;
+    private String patronymic;
+    //DateTimeFormatter birthDateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+    private LocalDate birthdate ;
 
-    public String patronymic;
+    private String sex;
 
-    public String phoneNumber;
-
-    public String sex;
-
-    DateTimeFormatter birthDateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-    public String birthdate = birthDateFormat.format(LocalDateTime.now());
-
-    public User(String firstName, String secondName, String patronymic, String phoneNumber, String sex, String birthdate) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.patronymic = patronymic;
-        this.phoneNumber = phoneNumber;
-        this.sex = sex;
-        this.birthdate = birthdate;
-    }
     @Override
     public String toString() {
         return "User{" +
                 "firstName='" + firstName + '\'' +
-                ", secondName='" + secondName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", patronymic='" + patronymic + '\'' +
-                ", phoneNumber=" + phoneNumber +
+                ", birthdate=" + birthdate +
                 ", sex='" + sex + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(firstName, user.firstName) && Objects.equals(secondName, user.secondName) &&
-                Objects.equals(patronymic, user.patronymic) && Objects.equals(phoneNumber, user.phoneNumber) &&
-                Objects.equals(sex, user.sex) && Objects.equals(birthDateFormat, user.birthDateFormat) && Objects.equals(birthdate, user.birthdate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, secondName, patronymic, phoneNumber, sex, birthDateFormat, birthdate);
+                "};";
     }
 }
