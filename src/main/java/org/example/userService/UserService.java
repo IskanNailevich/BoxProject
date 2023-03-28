@@ -14,6 +14,6 @@ public interface UserService {
 
     List<User> updateUser(String firstParam, String secondParam);
 
-    User createUser();
-    void createUsers (List<User> users);
+
+
 }

@@ -8,5 +8,5 @@ public interface CreateUserService {
 
     User createUser();
 
-    List<User> createAllUsers();
+    void pushCreatedUsersToFile();
 }
