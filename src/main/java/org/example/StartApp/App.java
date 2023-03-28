@@ -18,13 +18,11 @@ import java.util.List;
 public class App {
     public static void main( String[] args ) {
         UserService userService = new UserServiceStreamImpl();
-        userService.createUsers(null);
         CreateUserServiceImpl createUserService = new CreateUserServiceImpl();
-        System.out.println(createUserService.createUser());
-
-        //createUserService.interUserStringsParams();
-
-
+        WorkWithFileServiceImpl workWithFIleService = new WorkWithFileServiceImpl();
+        workWithFIleService.start();
+//        System.out.println(createUserService.createUser());
+//        createUserService.interUserStringsParams();
 //        System.out.println(userService.getAllUsers());
 //        String rakhimov = userService.getUser("Rakhimov").getFirstName();
 //        System.out.println(rakhimov);

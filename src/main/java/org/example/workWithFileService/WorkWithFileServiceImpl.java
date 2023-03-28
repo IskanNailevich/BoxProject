@@ -5,9 +5,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WorkWithFileServiceImpl implements WorkWithFIleService {
+public class WorkWithFileServiceImpl extends Thread implements WorkWithFIleService {
 
     public static final String FILE_NAME = "/Users/ruslanmuhametzanov/ideaFiles/output";
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                getListFromFile();
+                Thread.sleep(15000);
+            } catch (InterruptedException e) {
+                System.out.println("Нить не заснула");
+            }
+        }
+    }
 
     @Override
     public List<String> getListFromFile() {
@@ -19,8 +31,12 @@ public class WorkWithFileServiceImpl implements WorkWithFIleService {
             String[] splitParam = result.split(";", 0);
             System.out.println("Печатаем каждого юзера: ");
             for (int i = 0; i < splitParam.length; i++) {
+                if (i == splitParam.length - 1){
+                    break;
+                }
                 String s = splitParam[i];
-                System.out.println("Элемент массива = " + s);
+                String substring = s.substring(s.indexOf('{') + 1, s.lastIndexOf('}'));
+                System.out.println("Элемент массива = " + substring);
             }
             resultList = Arrays.stream(splitParam).collect(Collectors.toList());
         } catch (IOException e) {
