@@ -7,11 +7,8 @@ import org.example.workWithFileService.WorkWithFIleService;
 import org.example.workWithFileService.WorkWithFileServiceImpl;
 
 import java.io.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class UserServiceStreamImpl implements UserService {
     private WorkWithFIleService workWithFIleService;
@@ -23,7 +20,7 @@ public class UserServiceStreamImpl implements UserService {
     }
 
     @Override
-    public List<User> deleteUser(String lastName) {
+    public List<User> deleteUserWithReturningNewList(String lastName) {
         List<User> listAfterDelete = new ArrayList<>();
         List<User> allUsers = getAllUsers();
         System.out.println("Получили лист со всеми юзерами: " + getAllUsers());
@@ -46,7 +43,7 @@ public class UserServiceStreamImpl implements UserService {
     }
 
     @Override
-    public User getUser(String lastNameSearch) {
+    public User getUserByLastName(String lastNameSearch) {
         User user = null;
         List<User> allUsers = getAllUsers();
         System.out.println("Получили лист со всеми юзерами: " + getAllUsers());
@@ -89,6 +86,49 @@ public class UserServiceStreamImpl implements UserService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+  public void deleteUserWithReplacingToEmptyLine() {
+        System.out.println("Начал работать метод по удалению пользователя");
+        File fileToBeModified = new File(WorkWithFileServiceImpl.FILE_NAME);
+        StringBuilder oldContent = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileToBeModified));
+             BufferedReader console = new BufferedReader(new InputStreamReader(System.in))) {
+            String line = reader.readLine();
+            while (line != null) {
+                oldContent.append(line).append(System.lineSeparator());
+                line = reader.readLine();
+            }
+            System.out.println("Успешно получили строки из файла");
+            String content = oldContent.toString();
+
+            System.out.println("Введите фамилию пользователя, которого хотите удалить: ");
+            String userInfoForDelete = console.readLine();
+            String newString = "";
+            String userInforForDeleteString = getUserByLastName(userInfoForDelete).toString();
+            System.out.println("Получили юзера: "  + userInforForDeleteString);
+            StringBuilder correctOldString = new StringBuilder();
+            String symbols = "";
+            for (int i = 0; i < userInforForDeleteString.length(); i++) {
+                if(i == 4){
+                    symbols = "\\";
+                }
+                correctOldString.append(symbols).append(userInforForDeleteString.charAt(i));
+                symbols="";
+            }
+            System.out.println("Успешно заменили строку добавив символ \\" + correctOldString);
+            String newContent = content.replaceAll(String.valueOf(correctOldString), newString);
+            try (FileWriter writer = new FileWriter(fileToBeModified)) {
+                writer.write(newContent);
+                System.out.printf("Успешно удалили пользователя с фамилией %s на строку \n", userInfoForDelete);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public String parseUserInfoToString(User user){
+        String userInfoString = "";
+        userInfoString+=user.getFirstName() + user.getLastName() + user.getPatronymic() + user.getBirthdate() + user.getSex();
+        return userInfoString;
     }
 //    @Override
 //    public List<User> updateUser(String firstParam, String secondParam) {

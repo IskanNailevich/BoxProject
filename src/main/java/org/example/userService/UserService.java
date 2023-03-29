@@ -6,13 +6,15 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> deleteUser(String string);
+    List<User> deleteUserWithReturningNewList(String string);
 
     List<User> getAllUsers();
 
-    User getUser(String string);
+    User getUserByLastName(String string);
 
     public void update();
+    public String parseUserInfoToString(User user);
+    public void deleteUserWithReplacingToEmptyLine();
 
 
 

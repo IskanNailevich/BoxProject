@@ -1,6 +1,7 @@
 package org.example.StartApp;
 
 import org.example.UpdateLineFromFile;
+import org.example.UtilClasses.User;
 import org.example.convertService.ListConverter;
 import org.example.convertService.ListConverterImpl;
 import org.example.createUserService.CreateUserService;
@@ -19,9 +20,14 @@ public class App {
     public static void main(String[] args) {
         UserService userService = new UserServiceStreamImpl();
         CreateUserServiceImpl createUserService = new CreateUserServiceImpl();
-        createUserService.pushCreatedUsersToFile();
-        UpdateLineFromFile updateLineFromFile = new UpdateLineFromFile();
-        userService.update();
+       createUserService.pushCreatedUsersToFile();
+//        UpdateLineFromFile updateLineFromFile = new UpdateLineFromFile();
+//        //userService.update();
+//        System.out.println("check");
+//        User user1 = userService.getUser("Zagidullin");
+//        System.out.println(user1);
+        System.out.println(userService.getAllUsers());
+        userService.deleteUserWithReplacingToEmptyLine();
 
 //        WorkWithFileServiceImpl workWithFIleService = new WorkWithFileServiceImpl();
 //        workWithFIleService.start();
