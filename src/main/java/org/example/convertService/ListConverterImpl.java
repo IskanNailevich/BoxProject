@@ -1,13 +1,11 @@
 package org.example.convertService;
 
-import org.example.User;
+import org.example.UtilClasses.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ListConverterImpl implements ListConverter {
     @Override

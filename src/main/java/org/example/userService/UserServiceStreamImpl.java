@@ -1,28 +1,26 @@
 package org.example.userService;
 
-import org.example.User;
+import org.example.UtilClasses.User;
 import org.example.convertService.ListConverter;
 import org.example.convertService.ListConverterImpl;
 import org.example.workWithFileService.WorkWithFIleService;
 import org.example.workWithFileService.WorkWithFileServiceImpl;
 
-import java.time.LocalDate;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class UserServiceStreamImpl implements UserService {
     private WorkWithFIleService workWithFIleService;
     private ListConverter listConverter;
-    public UserServiceStreamImpl(){
+
+    public UserServiceStreamImpl() {
         workWithFIleService = new WorkWithFileServiceImpl();
         listConverter = new ListConverterImpl();
     }
 
     @Override
-    public List<User> deleteUser(String lastName) {
+    public List<User> deleteUserWithReturningNewList(String lastName) {
         List<User> listAfterDelete = new ArrayList<>();
         List<User> allUsers = getAllUsers();
         System.out.println("Получили лист со всеми юзерами: " + getAllUsers());
@@ -45,7 +43,7 @@ public class UserServiceStreamImpl implements UserService {
     }
 
     @Override
-    public User getUser(String lastNameSearch) {
+    public User getUserByLastName(String lastNameSearch) {
         User user = null;
         List<User> allUsers = getAllUsers();
         System.out.println("Получили лист со всеми юзерами: " + getAllUsers());
@@ -61,113 +59,94 @@ public class UserServiceStreamImpl implements UserService {
         return user;
     }
 
-    @Override
-    public List<User> updateUser(String firstParam, String secondParam) {
-        List<User> listAfterDelete = new ArrayList<>();
-        List<User> allUsers = getAllUsers();
-        System.out.println("Получили лист со всеми юзерами: " + getAllUsers());
-        System.out.println("Сравниваем параметр пользователя по запрашиваемой фамилии");
-        for (User user : allUsers) {
-            if (user.getLastName().equals(firstParam)) {
-                System.out.println("Нашли совпадение по: " + firstParam + "\n" + "Редактируем его");
-                user.setLastName(secondParam);
+    public void update() {
+        System.out.println("Начал работать метод по измению данных пользователя");
+        File fileToBeModified = new File(WorkWithFileServiceImpl.FILE_NAME);
+        StringBuilder oldContent = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileToBeModified));
+             BufferedReader console = new BufferedReader(new InputStreamReader(System.in))) {
+            String line = reader.readLine();
+            while (line != null) {
+                oldContent.append(line).append(System.lineSeparator());
+                line = reader.readLine();
             }
-            listAfterDelete.add(user);
+            System.out.println("Успешно получили строки из файла");
+            String content = oldContent.toString();
+
+            System.out.println("Введите строку которую хотите заменить: ");
+            String oldString = console.readLine();
+            System.out.println("Введите новое значение строки для замены: ");
+            String newString = console.readLine();
+
+            String newContent = content.replaceAll(oldString, newString);
+            try (FileWriter writer = new FileWriter(fileToBeModified)) {
+                writer.write(newContent);
+                System.out.printf("Успешно заменили строку %s на строку %s\n", oldString, newString);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        System.out.println("Получили итоговый список: " + allUsers);
-        return listAfterDelete;
     }
+  public void deleteUserWithReplacingToEmptyLine() {
+        System.out.println("Начал работать метод по удалению пользователя");
+        File fileToBeModified = new File(WorkWithFileServiceImpl.FILE_NAME);
+        StringBuilder oldContent = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileToBeModified));
+             BufferedReader console = new BufferedReader(new InputStreamReader(System.in))) {
+            String line = reader.readLine();
+            while (line != null) {
+                oldContent.append(line).append(System.lineSeparator());
+                line = reader.readLine();
+            }
+            System.out.println("Успешно получили строки из файла");
+            String content = oldContent.toString();
 
-    @Override
-    public User createUser( ) {
-        User createdUser = null;
-        String firstname;
-        String lastname;
-        String patronymic;
-        LocalDate birthday;
-        String sex;
-        int year = 1900 ;
-        int month = 1;
-        int day = 1;
-        try(Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Введите имя пользователя: ");
-            firstname = scanner.nextLine();
-            System.out.println("Введите фамилию пользователя: ");
-            lastname = scanner.nextLine();
-            System.out.println("Введите отчество пользователя: ");
-            patronymic = scanner.nextLine();
-            System.out.println("Введите год рождения пользователя(в числовом формате): ");
-            while (scanner.hasNext()){
-                year = scanner.nextInt();
-                if(year < 1900 || year > 2023){
-                    System.out.println("Введите реальный год рождения (от 1900 до 2023)");
+            System.out.println("Введите фамилию пользователя, которого хотите удалить: ");
+            String userInfoForDelete = console.readLine();
+            String newString = "";
+            String userInforForDeleteString = getUserByLastName(userInfoForDelete).toString();
+            System.out.println("Получили юзера: "  + userInforForDeleteString);
+            StringBuilder correctOldString = new StringBuilder();
+            String symbols = "";
+            for (int i = 0; i < userInforForDeleteString.length(); i++) {
+                if(i == 4){
+                    symbols = "\\";
                 }
-                break;
+                correctOldString.append(symbols).append(userInforForDeleteString.charAt(i));
+                symbols="";
             }
-            System.out.println("Введите месяц рождения (в числовом формате) : ");
-            while (scanner.hasNext()){
-                month = scanner.nextInt();
-                if(month < 1 || month > 12){
-                    System.out.println("Введите реальный месяц (от 1 до 12)");
-                }
-                break;
+            System.out.println("Успешно заменили строку добавив символ \\" + correctOldString);
+            String newContent = content.replaceAll(String.valueOf(correctOldString), newString);
+            try (FileWriter writer = new FileWriter(fileToBeModified)) {
+                writer.write(newContent);
+                System.out.printf("Успешно удалили пользователя с фамилией %s на строку \n", userInfoForDelete);
             }
-
-            System.out.println("Введите день рождения:");
-            while (scanner.hasNext()){
-                day = scanner.nextInt();
-                if(day < 1 || day > 31){
-                    System.out.println("Введите реальный месяц (от 1 до 31)");
-                }
-                break;
-            }
-            System.out.println("Введите пол пользователя (в формате: М, м , Ж , ж)");
-            while (scanner.hasNext()){
-                Character sexInput = scanner.findInLine(".").charAt(0);
-                Character chJUpper = 'Ж';
-                Character chJ = 'ж';
-                Character chMUpper = 'М';
-                Character chM = 'м';
-                if(!Objects.equals(sexInput,chJUpper) || !Objects.equals(sexInput,chJ) || !Objects.equals(sexInput,chMUpper) || !Objects.equals(sexInput,chM)) {
-                    System.out.println("Введите реальный пол (Ж или М, ж или м)");
-                }
-                break;
-            }
-            sex = scanner.nextLine();
-            createdUser = new User(firstname, lastname, patronymic, LocalDate.of(year,month,day),sex);
-            System.out.println(createdUser);
-
-        }catch (Exception e){
-            System.out.println("Ошибка при считывании с консоли при создании пользователя");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        return createdUser;
-
     }
-
-    @Override
-    public void createUsers(List<User> users)  {
-        List<User> myUsersList = new ArrayList<>();
-        myUsersList.add(new User("Iskander",
-                "Zagidullin",
-                "Nailevich",
-                LocalDate.of(1994,6,1),
-                "M"));
-        myUsersList.add(new User("Ruslan",
-                "Mukametzyanov",
-                "Albertovich",
-                LocalDate.of(1991,12,5),
-                "M"));
-        myUsersList.add(new User("Dzhamil",
-                "Rakhimov",
-                "Ilshatovich",
-                LocalDate.of(1992,7,5),
-                "M"));
-        List<String> usersToString = myUsersList.stream().map(User::toString).collect(Collectors.toList());
-        System.out.println("Print list usersToString");
-        System.out.println(usersToString);
-
-        workWithFIleService.writeToFile(usersToString.toString());
-
+    public String parseUserInfoToString(User user){
+        String userInfoString = "";
+        userInfoString+=user.getFirstName() + user.getLastName() + user.getPatronymic() + user.getBirthdate() + user.getSex();
+        return userInfoString;
     }
+//    @Override
+//    public List<User> updateUser(String firstParam, String secondParam) {
+//        List<User> listAfterDelete = new ArrayList<>();
+//        List<User> allUsers = getAllUsers();
+//        System.out.println("Получили лист со всеми юзерами: " + getAllUsers());
+//        System.out.println("Сравниваем параметр пользователя по запрашиваемой фамилии");
+//        for (User user : allUsers) {
+//            if (user.getLastName().equals(firstParam)) {
+//                System.out.println("Нашли совпадение по: " + firstParam + "\n" + "Редактируем его");
+//                user.setLastName(secondParam);
+//            }
+//            listAfterDelete.add(user);
+//        }
+//        System.out.println("Получили итоговый список: " + allUsers);
+//        return listAfterDelete;
+//    }
+
+
+
 }

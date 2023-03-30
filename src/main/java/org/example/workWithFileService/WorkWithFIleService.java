@@ -6,5 +6,5 @@ public interface WorkWithFIleService {
 
     List<String> getListFromFile();
 
-    void writeToFile(String userInfo);
+    void writeUserDataToFile(String userInfo);
 }

@@ -1,19 +1,21 @@
 package org.example.userService;
 
-import org.example.User;
+import org.example.UtilClasses.User;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<User> deleteUser(String string);
+    List<User> deleteUserWithReturningNewList(String string);
 
     List<User> getAllUsers();
 
-    User getUser(String string);
+    User getUserByLastName(String string);
 
-    List<User> updateUser(String firstParam, String secondParam);
+    public void update();
+    public String parseUserInfoToString(User user);
+    public void deleteUserWithReplacingToEmptyLine();
 
-    User createUser();
-    void createUsers (List<User> users);
+
+
 }

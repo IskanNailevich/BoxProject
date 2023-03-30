@@ -1,19 +1,15 @@
-package org.example;
+package org.example.UtilClasses;
 
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-
-
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
 public class User {
-
     private String firstName;
     private String lastName;
     private String patronymic;
