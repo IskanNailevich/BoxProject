@@ -1,10 +1,5 @@
 package org.example.draft;
 
-import org.example.services.workWithFileService.WorkWithFileServiceImpl;
-import org.example.utilClasses.User;
-
-import java.io.*;
-
 public class draft {
     //FROM UserServiceStreamImpl
 
@@ -139,4 +134,13 @@ public class draft {
 //            throw new RuntimeException(e);
 //        }
     //}
+
+
+    //FROM LISTCONVERTERIMPL__________________________________________________________________________________________
+//    public List<String> usersToString(List<User> users) {
+//        List<String> usersToString = users.stream()
+//                .map(User::toString)
+//                .collect(Collectors.toList());
+//        return usersToString;
+//    }
 }

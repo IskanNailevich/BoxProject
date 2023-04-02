@@ -2,7 +2,7 @@ package org.example.services.user;
 
 public interface ValidateParams {
     /**
-     *  Проверяем параметр пола, допустимые входные данные (М, м, Ж, ж)
+     * Проверяем параметр пола, допустимые входные данные (М, м, Ж, ж)
      */
     boolean validateSexParams(String sex);
 
@@ -14,5 +14,5 @@ public interface ValidateParams {
     /**
      * Проверка параметров Даты рождения, допустимые входные данные (числа, проверка чисел на реальую дату по календарю)
      */
-   boolean validateBirthdayParams(int[] dateArray);
+    boolean validateBirthdayParams(int[] dateArray);
 }

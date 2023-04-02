@@ -1,4 +1,4 @@
-package org.example.services.workWithFileService;
+package org.example.services.workWithFile;
 
 import org.example.utilClasses.User;
 
@@ -7,39 +7,40 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WorkWithFileServiceImpl implements WorkWithFIleService {
+public class WorkWithFileImpl implements WorkWithFIle {
 
     public static final String FILE_NAME = "/Users/ruslanmuhametzanov/ideaFiles/output";
 
-    private  String readFromFile(String path){
+    private String readFromFile(String path) {
         String resultRead = "";
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(path))){
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
             resultRead = bufferedReader.readLine();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Ошибка при прочтении с файла " + e);
         }
-        if(resultRead == null){
+        if (resultRead == null) {
             System.out.println("\t\t\tФайл пуст при первичном считывании\n\n");
             resultRead = "";
         }
         return resultRead;
     }
+
     @Override
     public List<String> getListFromFile() {
         List<String> resultList;
-            String result = readFromFile(FILE_NAME);
-            //System.out.println("Строка после вычитки: " + result);
-            String[] splitParam = result.split(";", 0);
-            //System.out.println("Печатаем каждого юзера: ");
-            for (int i = 0; i < splitParam.length; i++) {
-                if (i == splitParam.length - 1) {
-                    break;
-                }
-                String s = splitParam[i];
-                String substring = s.substring(s.indexOf('{') + 1, s.lastIndexOf('}'));
-                //System.out.println("Элемент массива = " + substring);
+        String result = readFromFile(FILE_NAME);
+        //System.out.println("Строка после вычитки: " + result);
+        String[] splitParam = result.split(";", 0);
+        //System.out.println("Печатаем каждого юзера: ");
+        for (int i = 0; i < splitParam.length; i++) {
+            if (i == splitParam.length - 1) {
+                break;
             }
-            resultList = Arrays.stream(splitParam).collect(Collectors.toList());
+            String s = splitParam[i];
+            String substring = s.substring(s.indexOf('{') + 1, s.lastIndexOf('}'));
+            //System.out.println("Элемент массива = " + substring);
+        }
+        resultList = Arrays.stream(splitParam).collect(Collectors.toList());
 
         return resultList;
     }
@@ -49,7 +50,6 @@ public class WorkWithFileServiceImpl implements WorkWithFIleService {
         BufferedWriter bufferedWriter = null;
         try {
             bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, isRewrite));
-
             bufferedWriter.write(String.valueOf(user));
             bufferedWriter.close();
         } catch (IOException e) {
@@ -57,5 +57,4 @@ public class WorkWithFileServiceImpl implements WorkWithFIleService {
             throw new RuntimeException(e);
         }
     }
-
 }

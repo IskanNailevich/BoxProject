@@ -9,14 +9,6 @@ import java.util.List;
  */
 
 public interface ListConverter {
-
-    /**
-     * Преобразование данных пользователя в String
-     * @param users - переданный на вход лист юзеров
-     * @return - лист строк в котором каждый юзер представлен в виде строки
-     */
-    List<String> usersToString(List<User> users);
-
     /**
      * Метод преобразует строку в которой хранятся данные юзера
      * @param list - переданный на вход лист строк

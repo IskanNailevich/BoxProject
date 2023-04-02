@@ -3,8 +3,8 @@ package org.example.services.user;
 import org.example.utilClasses.User;
 import org.example.services.convert.ListConverter;
 import org.example.services.convert.ListConverterImpl;
-import org.example.services.workWithFileService.WorkWithFIleService;
-import org.example.services.workWithFileService.WorkWithFileServiceImpl;
+import org.example.services.workWithFile.WorkWithFIle;
+import org.example.services.workWithFile.WorkWithFileImpl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,43 +14,59 @@ public class UserServiceStreamImpl implements UserService {
     private InitParams initParams;
     private ValidateParams validateParams;
     private String delimiter = "________________________________________________________________________________________________________";
-
-
-    private WorkWithFIleService workWithFIleService;
+    private String inputChoice = "Введите %s для обновления:\n";
+    private WorkWithFIle workWithFIleService;
     private ListConverter listConverter;
 
-
     public UserServiceStreamImpl() {
-
-        workWithFIleService = new WorkWithFileServiceImpl();
+        workWithFIleService = new WorkWithFileImpl();
         listConverter = new ListConverterImpl();
         initParams = new InitParamsImpl();
         validateParams = new ValidateParamsImpl();
-
     }
 
-
-    public int getIdUserConsole(String s){
+    /**
+     * Возвращает айди пользователя введеного с консоли
+     * есть параметр строка - указываем для каких целей нужно айди
+     * @param s
+     * @return
+     */
+    public int getIdUserConsole(String s) {
         System.out.printf("Введите айди пользователя, которого хотите %s:\n", s);
         return Integer.parseInt(initParams.readFromConsole());
     }
 
     //METHODS FOR CREATE----------------------------------------------------------------------------------------------------------------
-    public void create(){
+    public void create() {
         int id = returnId();
         createAndValidate(id, initParams.fullNameParams(),
                 initParams.birthdayParams(),
                 initParams.sexParams());
     }
-    private int returnId (){
+
+    /**
+     * возвращает последний айди в списке, для добавления юзера
+     * @return
+     */
+    private int returnId() {
         int lastId = 0;
         for (int i = 0; i < getAllUsers().size(); i++) {
-            if(i == getAllUsers().size()-1){
+            if (i == getAllUsers().size() - 1) {
                 lastId = getAllUsers().get(i).getId();
             }
         }
         return lastId;
     }
+
+    /**
+     * Проводит валидацию всех параметров, кроме айди
+     * создает юзера
+     * отправляет юзера в файл
+     * @param id
+     * @param arrayFullName
+     * @param arrayBirthday
+     * @param sex
+     */
     private void createAndValidate(int id, String[] arrayFullName, int[] arrayBirthday, String sex) {
         String[] stringsUserInfo = arrayFullName;
         int[] birthdayUserInfo = arrayBirthday;
@@ -71,15 +87,13 @@ public class UserServiceStreamImpl implements UserService {
             sexUserInfo = initParams.sexParams();
         }
 
-      //  System.out.println("Все параметры успешно прошли проверку, создаем пользователя");
-
-
-        User user = new User((id+1), stringsUserInfo[0],
+        //  System.out.println("Все параметры успешно прошли проверку, создаем пользователя");
+        User user = new User((id + 1), stringsUserInfo[0],
                 stringsUserInfo[1],
                 stringsUserInfo[2],
                 LocalDate.of(birthdayUserInfo[0], birthdayUserInfo[1], birthdayUserInfo[2]),
                 sexUserInfo);
-        workWithFIleService.writeUserDataToFile(user,true);
+        workWithFIleService.writeUserDataToFile(user, true);
         System.out.println(user);
     }
 
@@ -97,8 +111,8 @@ public class UserServiceStreamImpl implements UserService {
         //System.out.println("Получили лист со всеми юзерами: " + getAllUsers());
         //System.out.println("Сравниваем параметр пользователя по запрашиваемой фамилии");
         for (User elementOfUsers : allUsers) {
-           // System.out.println("Проходимся циклом по списку, элемент из списка = " + elementOfUsers);
-           // System.out.println(elementOfUsers.getLastName());
+            // System.out.println("Проходимся циклом по списку, элемент из списка = " + elementOfUsers);
+            // System.out.println(elementOfUsers.getLastName());
             if (elementOfUsers.getId() == id) {
                 user = elementOfUsers;
             }
@@ -125,8 +139,14 @@ public class UserServiceStreamImpl implements UserService {
         updateByChoice(userForUpdate, choice);
     }
 
-    private void updateByChoice(User userForUpdate, int choice){
-
+    /**
+     * Принимает пользователя, которого надо обновить И выбор цифры с консоли
+     * создает копию пользователя, которого надо обновить, меняет в нем необходимые данные в зависимости от выбора
+     * и отправляет в файл обнолвенный лист сюзеров с копией
+     * @param userForUpdate
+     * @param choice
+     */
+    private void updateByChoice(User userForUpdate, int choice) {
         int updateId = userForUpdate.getId();
 
         String[] arrayFullName = {userForUpdate.getFirstName(),
@@ -139,61 +159,57 @@ public class UserServiceStreamImpl implements UserService {
 
         String sex = userForUpdate.getSex();
 
-        if(choice == 1){
-            System.out.println("Введите фамилию:");
+        if (choice == 1) {
+            System.out.printf(inputChoice, "фамилию");
             arrayFullName[0] = initParams.readFromConsole();
-        } else if(choice == 2){
-            System.out.println("Введите имя:");
+        } else if (choice == 2) {
+            System.out.printf(inputChoice, "имя");
             arrayFullName[1] = initParams.readFromConsole();
-        } else if(choice == 3){
-            System.out.println("Введите отчество");
+        } else if (choice == 3) {
+            System.out.printf(inputChoice, "отчество");
             arrayFullName[2] = initParams.readFromConsole();
-        } else if(choice == 4){
+        } else if (choice == 4) {
             arrayBirthday = initParams.birthdayParams();
-        } else if(choice == 5){
+        } else if (choice == 5) {
             sex = initParams.sexParams();
         }
 
-        List <User> listWithoutUpdatedUser = returnListWithoutUser(updateId);
+        List<User> listWithoutUpdatedUser = returnListWithoutUser(updateId);
         for (int i = 0; i < listWithoutUpdatedUser.size(); i++) {
-            boolean tmp = true;
-            if(i==0){
-                tmp = false;
-            }
-            if(i == userForUpdate.getId()-1){
-                createAndValidate(updateId-1, arrayFullName, arrayBirthday, sex);
+            boolean tmp = i != 0;
+            if (i == userForUpdate.getId() - 1) {
+                createAndValidate(updateId - 1, arrayFullName, arrayBirthday, sex);
             }
             workWithFIleService.writeUserDataToFile(listWithoutUpdatedUser.get(i), tmp);
-
         }
-
-//        for (User user : returnListWithoutUser(userForUpdate.getId())) {
-//            System.out.println(user);
-//            workWithFIleService.writeUserDataToFile(user,false);
-//        }
         System.out.println("Успешно обновили данные пользователя");
-
     }
 
-
     //METHODS FOR DELETE----------------------------------------------------------------------------------------------------------------
-    public void delete(){
+    @Override
+    public void delete() {
         int keyId = getIdUserConsole("удалить");
-        List <User> usersListAfterDelete = returnListWithoutUser(keyId);
-        idDecrement(usersListAfterDelete,keyId);
+        List<User> usersListAfterDelete = returnListWithoutUser(keyId);
+        idDecrement(usersListAfterDelete, keyId);
         for (int i = 0; i < usersListAfterDelete.size(); i++) {
             boolean tmp = true;
-            if(i==0){
+            if (i == 0) {
                 tmp = false;
             }
             workWithFIleService.writeUserDataToFile(usersListAfterDelete.get(i), tmp);
         }
     }
 
-    private void idDecrement(List<User> list, int id){
+    /**
+     * В переданном листе уменьшает значение айди всех пользователей, которые идут после указанного id.
+     * Уменьшают на 1.
+     * @param list
+     * @param id
+     */
+    private void idDecrement(List<User> list, int id) {
         for (User user : list) {
-            if(user.getId() > id){
-                user.setId(user.getId()-1);
+            if (user.getId() > id) {
+                user.setId(user.getId() - 1);
             }
         }
     }
@@ -203,17 +219,16 @@ public class UserServiceStreamImpl implements UserService {
      * @param id
      * @return
      */
-    private List<User> returnListWithoutUser(int id){
+    private List<User> returnListWithoutUser(int id) {
         User keyUser = getById(id);
         List<User> allUsers = getAllUsers();
         List<User> result = new ArrayList<>();
         for (User allUser : allUsers) {
-            if(!allUser.equals(keyUser)){
-                result.add(allUser);;
+            if (!allUser.equals(keyUser)) {
+                result.add(allUser);
+                ;
             }
         }
         return result;
     }
-
-
 }

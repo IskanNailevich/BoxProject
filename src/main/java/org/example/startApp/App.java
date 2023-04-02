@@ -2,8 +2,8 @@ package org.example.startApp;
 
 
 import org.example.services.user.UserServiceStreamImpl;
-import org.example.services.workWithFileService.WorkWithFIleService;
-import org.example.services.workWithFileService.WorkWithFileServiceImpl;
+import org.example.services.workWithFile.WorkWithFIle;
+import org.example.services.workWithFile.WorkWithFileImpl;
 import org.example.utilClasses.User;
 
 import java.io.BufferedReader;
@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 
 public class App {
     static UserServiceStreamImpl userServiceStream = new UserServiceStreamImpl();
-    static WorkWithFIleService workWithFIleService = new WorkWithFileServiceImpl();
+    static WorkWithFIle workWithFIleService = new WorkWithFileImpl();
     private static void printCreate(){
         System.out.println("Create");
         userServiceStream.create();
