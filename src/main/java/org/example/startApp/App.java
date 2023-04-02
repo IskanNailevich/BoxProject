@@ -5,6 +5,8 @@ import org.example.services.user.CreateUserService;
 import org.example.services.user.CreateUserServiceImpl;
 import org.example.services.user.InitParamsImpl;
 import org.example.services.user.UserServiceStreamImpl;
+import org.example.services.workWithFileService.WorkWithFIleService;
+import org.example.services.workWithFileService.WorkWithFileServiceImpl;
 import org.example.utilClasses.User;
 
 import java.io.BufferedReader;
@@ -14,6 +16,7 @@ import java.util.Arrays;
 
 public class App {
     static UserServiceStreamImpl userServiceStream = new UserServiceStreamImpl();
+    static WorkWithFIleService workWithFIleService = new WorkWithFileServiceImpl();
     private static void printCreate(){
         System.out.println("Create");
 
@@ -32,6 +35,7 @@ public class App {
     }
     private static void printGetAll(){
         System.out.println("GetAll");
+        System.out.println(userServiceStream.getAllUsers());
     }
     public static void main(String[] args) {
         int choice;

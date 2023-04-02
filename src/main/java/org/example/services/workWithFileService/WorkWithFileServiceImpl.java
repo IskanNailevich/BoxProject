@@ -50,8 +50,8 @@ public class WorkWithFileServiceImpl implements WorkWithFIleService {
         }
     }
 
-    @Override
-    public void writeUserFromConsoleToFile() {
+   // @Override
+    //public void writeUserFromConsoleToFile() {
 //        BufferedWriter bufferedWriter = null;
 //        try {
 //            bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME));
@@ -62,5 +62,5 @@ public class WorkWithFileServiceImpl implements WorkWithFIleService {
 //            System.out.println("Ошибка записи в файл" + e);
 //            throw new RuntimeException(e);
 //        }
-    }
+    //}
 }

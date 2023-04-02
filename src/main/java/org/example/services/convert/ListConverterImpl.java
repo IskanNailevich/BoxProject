@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 
 public class ListConverterImpl implements ListConverter {
-    User testUser;
+    User testUser = new User();
 
     private static final String delimiter = "-----------------------------------------------------------------------------";
 
@@ -24,22 +24,24 @@ public class ListConverterImpl implements ListConverter {
 
     @Override
     public List<User> stringToUsers(List<String> list) {
-        System.out.println(delimiter);
+
         System.out.println("Старт работы конвертера со стринга на юзер лист");
+
         List<String> usersParams = getUsersParams(list);
-        System.out.println(delimiter);
+
         List<User> usersResult =  splitParams(usersParams);
+
         System.out.println("Конвертер успешно завершил работу");
         return usersResult;
     }
 
     private List<User> splitParams(List<String> list) {
         List<User> usersResult = new ArrayList<>();
-        String[] stringsArr = new String[5];
+        String[] stringsArr = new String[6];
         int[] intsArr = new int[3];
 
         System.out.println("Сплитим параметры по запятой");
-        for (String user : getUsersParams(list)) {
+        for (String user : list) {
             String[] splitParam = user.split(",");
 
             System.out.println("Отображение каждого пользователя после слпита: ");
@@ -50,11 +52,11 @@ public class ListConverterImpl implements ListConverter {
             System.out.println(delimiter);
             substringParamBySplitDelimiter(splitParam, stringsArr, intsArr);
 
-            usersResult.add(new User(testUser.getId(),stringsArr[0],
-                    stringsArr[1],
+            usersResult.add(new User(Integer.parseInt(stringsArr[0]),stringsArr[1],
                     stringsArr[2],
+                    stringsArr[3],
                     LocalDate.of(intsArr[0], intsArr[1], intsArr[2]),
-                    stringsArr[4]));
+                    stringsArr[5]));
         }
         return usersResult;
     }

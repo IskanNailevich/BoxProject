@@ -25,7 +25,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id='" + id +'\'' +
-                "firstName='" + firstName + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", birthdate=" + birthdate +
