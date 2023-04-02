@@ -1,25 +1,17 @@
-package org.example.workWithFileService;
+package org.example.services.workWithFileService;
+
+import org.example.services.user.CreateUserServiceImpl;
+import org.example.utilClasses.User;
 
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WorkWithFileServiceImpl extends Thread implements WorkWithFIleService {
+public class WorkWithFileServiceImpl implements WorkWithFIleService {
 
     public static final String FILE_NAME = "/Users/ruslanmuhametzanov/ideaFiles/output";
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                getListFromFile();
-                Thread.sleep(15000);
-            } catch (InterruptedException e) {
-                System.out.println("Нить не заснула");
-            }
-        }
-    }
+//    CreateUserServiceImpl createUserService = new CreateUserServiceImpl();
 
     @Override
     public List<String> getListFromFile() {
@@ -31,7 +23,7 @@ public class WorkWithFileServiceImpl extends Thread implements WorkWithFIleServi
             String[] splitParam = result.split(";", 0);
             System.out.println("Печатаем каждого юзера: ");
             for (int i = 0; i < splitParam.length; i++) {
-                if (i == splitParam.length - 1){
+                if (i == splitParam.length - 1) {
                     break;
                 }
                 String s = splitParam[i];
@@ -46,15 +38,29 @@ public class WorkWithFileServiceImpl extends Thread implements WorkWithFIleServi
     }
 
     @Override
-    public void writeUserDataToFile(String userInfo) {
+    public void writeUserDataToFile(User user) {
         BufferedWriter bufferedWriter = null;
         try {
             bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME));
-            bufferedWriter.write(userInfo);
+            bufferedWriter.write(String.valueOf(user));
             bufferedWriter.close();
         } catch (IOException e) {
             System.out.println("Ошибка записи в файл" + e);
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void writeUserFromConsoleToFile() {
+//        BufferedWriter bufferedWriter = null;
+//        try {
+//            bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME));
+//            String createdUserFromConsole = createUserService.createUser().toString();
+//            bufferedWriter.write(createdUserFromConsole);
+//            bufferedWriter.close();
+//        } catch (IOException e) {
+//            System.out.println("Ошибка записи в файл" + e);
+//            throw new RuntimeException(e);
+//        }
     }
 }
