@@ -6,7 +6,6 @@ import org.example.services.convert.ListConverterImpl;
 import org.example.services.workWithFileService.WorkWithFIleService;
 import org.example.services.workWithFileService.WorkWithFileServiceImpl;
 
-import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +37,21 @@ public class UserServiceStreamImpl implements UserService {
 
     //METHODS FOR CREATE----------------------------------------------------------------------------------------------------------------
     public void create(){
-        createAndValidate(initParams.fullNameParams(),
+        int id = returnId();
+        createAndValidate(id, initParams.fullNameParams(),
                 initParams.birthdayParams(),
                 initParams.sexParams());
     }
-
-    private void createAndValidate(String[] arrayFullName, int[] arrayBirthday, String sex) {
+    private int returnId (){
+        int lastId = 0;
+        for (int i = 0; i < getAllUsers().size(); i++) {
+            if(i == getAllUsers().size()-1){
+                lastId = getAllUsers().get(i).getId();
+            }
+        }
+        return lastId;
+    }
+    private void createAndValidate(int id, String[] arrayFullName, int[] arrayBirthday, String sex) {
         String[] stringsUserInfo = arrayFullName;
         int[] birthdayUserInfo = arrayBirthday;
         String sexUserInfo = sex;
@@ -65,13 +73,8 @@ public class UserServiceStreamImpl implements UserService {
 
       //  System.out.println("Все параметры успешно прошли проверку, создаем пользователя");
 
-        int lastId = 0;
-        for (int i = 0; i < getAllUsers().size(); i++) {
-            if(i == getAllUsers().size()-1){
-                lastId = getAllUsers().get(i).getId();
-            }
-        }
-        User user = new User((lastId+1), stringsUserInfo[0],
+
+        User user = new User((id+1), stringsUserInfo[0],
                 stringsUserInfo[1],
                 stringsUserInfo[2],
                 LocalDate.of(birthdayUserInfo[0], birthdayUserInfo[1], birthdayUserInfo[2]),
@@ -124,6 +127,8 @@ public class UserServiceStreamImpl implements UserService {
 
     private void updateByChoice(User userForUpdate, int choice){
 
+        int updateId = userForUpdate.getId();
+
         String[] arrayFullName = {userForUpdate.getFirstName(),
                 userForUpdate.getLastName(),
                 userForUpdate.getPatronymic()};
@@ -149,12 +154,25 @@ public class UserServiceStreamImpl implements UserService {
             sex = initParams.sexParams();
         }
 
-        for (User user : returnListWithoutUser(userForUpdate.getId())) {
-            System.out.println(user);
-            workWithFIleService.writeUserDataToFile(user,false);
+        List <User> listWithoutUpdatedUser = returnListWithoutUser(updateId);
+        for (int i = 0; i < listWithoutUpdatedUser.size(); i++) {
+            boolean tmp = true;
+            if(i==0){
+                tmp = false;
+            }
+            if(i == userForUpdate.getId()-1){
+                createAndValidate(updateId-1, arrayFullName, arrayBirthday, sex);
+            }
+            workWithFIleService.writeUserDataToFile(listWithoutUpdatedUser.get(i), tmp);
+
         }
+
+//        for (User user : returnListWithoutUser(userForUpdate.getId())) {
+//            System.out.println(user);
+//            workWithFIleService.writeUserDataToFile(user,false);
+//        }
         System.out.println("Успешно обновили данные пользователя");
-        createAndValidate(arrayFullName, arrayBirthday, sex);
+
     }
 
 
@@ -162,12 +180,21 @@ public class UserServiceStreamImpl implements UserService {
     public void delete(){
         int keyId = getIdUserConsole("удалить");
         List <User> usersListAfterDelete = returnListWithoutUser(keyId);
+        idDecrement(usersListAfterDelete,keyId);
         for (int i = 0; i < usersListAfterDelete.size(); i++) {
             boolean tmp = true;
             if(i==0){
                 tmp = false;
             }
             workWithFIleService.writeUserDataToFile(usersListAfterDelete.get(i), tmp);
+        }
+    }
+
+    private void idDecrement(List<User> list, int id){
+        for (User user : list) {
+            if(user.getId() > id){
+                user.setId(user.getId()-1);
+            }
         }
     }
 
@@ -184,7 +211,6 @@ public class UserServiceStreamImpl implements UserService {
             if(!allUser.equals(keyUser)){
                 result.add(allUser);;
             }
-
         }
         return result;
     }
