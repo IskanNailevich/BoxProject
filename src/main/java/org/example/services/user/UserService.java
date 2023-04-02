@@ -13,22 +13,25 @@ public interface UserService {
      */
     void create();
 
-    List<User> deleteUserWithReturningNewList(String string);
-
     List<User> getAllUsers();
+
+    /**
+     * Возвращает пользователя по айди введеного с консоли
+     * @return
+     */
+    User get();
 
     /**
      * Возвращает пользователя по id
      * @param
      * @return
      */
-    User get(int id);
+    User getById(int id);
 
     void update();
 
-    String parseUserInfoToString(User user);
 
-    void deleteUserWithReplacingToEmptyLine();
+
 
 
 }

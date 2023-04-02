@@ -16,11 +16,7 @@ public class User {
     private String patronymic;
     private LocalDate birthdate;
     private String sex;
-    public int getIdWithIncrement(){
-        int resultId = Integer.parseInt("" + this.id);
-        setId(resultId++);
-        return  resultId;
-    }
+
     @Override
     public String toString() {
         return "User{" +

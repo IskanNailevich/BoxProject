@@ -25,13 +25,12 @@ public class ListConverterImpl implements ListConverter {
     @Override
     public List<User> stringToUsers(List<String> list) {
 
-        System.out.println("Старт работы конвертера со стринга на юзер лист");
-
+     //   System.out.println("Старт работы конвертера со стринга на юзер лист");
         List<String> usersParams = getUsersParams(list);
 
         List<User> usersResult =  splitParams(usersParams);
 
-        System.out.println("Конвертер успешно завершил работу");
+        //System.out.println("Конвертер успешно завершил работу");
         return usersResult;
     }
 
@@ -40,16 +39,16 @@ public class ListConverterImpl implements ListConverter {
         String[] stringsArr = new String[6];
         int[] intsArr = new int[3];
 
-        System.out.println("Сплитим параметры по запятой");
+     //   System.out.println("Сплитим параметры по запятой");
         for (String user : list) {
             String[] splitParam = user.split(",");
 
-            System.out.println("Отображение каждого пользователя после слпита: ");
-            for (String s : splitParam) {
-                System.out.println("Элемент слпита : " + s);
-            }
+//            System.out.println("Отображение каждого пользователя после слпита: ");
+//            for (String s : splitParam) {
+//                System.out.println("Элемент слпита : " + s);
+//            }
 
-            System.out.println(delimiter);
+    //        System.out.println(delimiter);
             substringParamBySplitDelimiter(splitParam, stringsArr, intsArr);
 
             usersResult.add(new User(Integer.parseInt(stringsArr[0]),stringsArr[1],
@@ -62,7 +61,7 @@ public class ListConverterImpl implements ListConverter {
     }
 
     private void substringParamBySplitDelimiter(String[] splitParam, String[] stringsArr, int[] intsArr) {
-        System.out.println("Выделяем подстроку из элемента сплита по ' ");
+    //    System.out.println("Выделяем подстроку из элемента сплита по ' ");
             for (int i = 0; i < splitParam.length; i++) {
                 String resultParam;
                 if (splitParam[i].contains("'")) {
@@ -75,24 +74,24 @@ public class ListConverterImpl implements ListConverter {
                         intsArr[j] = Integer.parseInt(dateSplit[j]);
                     }
                 }
-                System.out.println("Подстрока: " + resultParam);
+              //  System.out.println("Подстрока: " + resultParam);
             }
     }
 
     private List<String> getUsersParams(List<String>list) {
         Stream<String> user = list.stream()
-                .filter(x -> x.contains("User"))
-                .peek(x -> System.out.println("Пользователь = " + x));
-        System.out.println("Получили отфильтрованный список стринг 1 этап: ");
+                .filter(x -> x.contains("User"));
+         //       .peek(x -> System.out.println("Пользователь = " + x));
+     //   System.out.println("Получили отфильтрованный список стринг 1 этап: ");
         Stream<String> stringStream = user.map(x -> {
             int open = x.indexOf("{") + 1;
             int close = x.indexOf("}");
             return x.substring(open, close);
         });
-        System.out.println(delimiter);
-        System.out.println("Оставляем пользователя только с его параметрами");
+    //    System.out.println(delimiter);
+     //   System.out.println("Оставляем пользователя только с его параметрами");
         return stringStream
-                .peek(System.out::println)
+             //   .peek(System.out::println)
                 .collect(Collectors.toList());
     }
 }

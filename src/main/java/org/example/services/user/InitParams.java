@@ -5,6 +5,11 @@ package org.example.services.user;
  */
 public interface InitParams {
     /**
+     * Чтение строки с консоли
+     */
+    String readFromConsole();
+
+    /**
      * Получение параметра пола
      */
     String sexParams();

@@ -11,7 +11,13 @@ public interface WorkWithFIleService {
      */
     List<String> getListFromFile();
 
-    void writeUserDataToFile(User user);
+    /**
+     * Записывает переданного пользователя в файл.
+     * isRewrite - булевая переменная. true -> добавит поверх старых данных, false -> добавит, перезаписав старые
+     * @param user
+     * @param isRewrite
+     */
+    void writeUserDataToFile(User user, boolean isRewrite);
 
     //public void writeUserFromConsoleToFile();
 }
