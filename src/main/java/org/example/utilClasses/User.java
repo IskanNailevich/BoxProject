@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 public class User {
     private int id = 0;
-    private String firstName;
     private String lastName;
+    private String firstName;
     private String patronymic;
     private LocalDate birthdate;
     private String sex;
@@ -21,8 +21,8 @@ public class User {
     public String toString() {
         return "User{" +
                 "id='" + id +'\'' +
-                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", birthdate=" + birthdate +
                 ", sex='" + sex + '\'' +

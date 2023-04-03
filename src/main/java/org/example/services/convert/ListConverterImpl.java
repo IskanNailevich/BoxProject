@@ -98,5 +98,4 @@ public class ListConverterImpl implements ListConverter {
             //  System.out.println("Подстрока: " + resultParam);
         }
     }
-
 }

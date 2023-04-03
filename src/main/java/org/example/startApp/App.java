@@ -12,8 +12,8 @@ import java.io.InputStreamReader;
 
 public class App {
     static UserServiceStreamImpl userServiceStream = new UserServiceStreamImpl();
-    static WorkWithFIle workWithFIleService = new WorkWithFileImpl();
-    private static void printCreate(){
+    static WorkWithFIle workWithFIleService = new WorkWithFileImpl(); //todo не используется
+    private static void printCreate(){ //todo перенести в приват метод новгго сервиса внизу аналогично
         System.out.println("Create");
         userServiceStream.create();
         System.out.println("Успешно создали пользователя и записали в файл: ");

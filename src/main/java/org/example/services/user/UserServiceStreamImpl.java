@@ -123,7 +123,7 @@ public class UserServiceStreamImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         List<String> listFromFile = workWithFIleService.getListFromFile();
-        List<User> users = listConverter.stringToUsers(listFromFile);
+        List<User> users = listConverter.stringToUsers(listFromFile); //todo вернуть сразу без создания объекта
         return users;
     }
 
@@ -150,7 +150,7 @@ public class UserServiceStreamImpl implements UserService {
         int updateId = userForUpdate.getId();
 
         String[] arrayFullName = {userForUpdate.getFirstName(),
-                userForUpdate.getLastName(),
+                userForUpdate.getFirstName(),
                 userForUpdate.getPatronymic()};
 
         int[] arrayBirthday = {userForUpdate.getBirthdate().getYear(),
@@ -175,12 +175,25 @@ public class UserServiceStreamImpl implements UserService {
         }
 
         List<User> listWithoutUpdatedUser = returnListWithoutUser(updateId);
-        for (int i = 0; i < listWithoutUpdatedUser.size(); i++) {
+
+        System.out.println(delimiter);
+        System.out.println(listWithoutUpdatedUser);
+        System.out.println(delimiter);
+
+        for (int i = 0; i <= listWithoutUpdatedUser.size(); i++) {
             boolean tmp = i != 0;
             if (i == userForUpdate.getId() - 1) {
+                System.out.println(delimiter);
                 createAndValidate(updateId - 1, arrayFullName, arrayBirthday, sex);
+                System.out.println(delimiter);
+                System.out.println(getAllUsers());
             }
-            workWithFIleService.writeUserDataToFile(listWithoutUpdatedUser.get(i), tmp);
+            if(i != listWithoutUpdatedUser.size()) {
+                workWithFIleService.writeUserDataToFile(listWithoutUpdatedUser.get(i), tmp);
+                System.out.println(delimiter);
+                System.out.println(getAllUsers());
+                System.out.println(delimiter);
+            }
         }
         System.out.println("Успешно обновили данные пользователя");
     }
@@ -203,7 +216,7 @@ public class UserServiceStreamImpl implements UserService {
     /**
      * В переданном листе уменьшает значение айди всех пользователей, которые идут после указанного id.
      * Уменьшают на 1.
-     * @param list
+     * @param
      * @param id
      */
     private void idDecrement(List<User> list, int id) {
@@ -226,7 +239,6 @@ public class UserServiceStreamImpl implements UserService {
         for (User allUser : allUsers) {
             if (!allUser.equals(keyUser)) {
                 result.add(allUser);
-                ;
             }
         }
         return result;

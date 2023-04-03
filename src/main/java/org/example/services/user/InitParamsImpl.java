@@ -43,7 +43,7 @@ public class InitParamsImpl implements InitParams {
                 choice = "имя";
             } else {
                 choice = "отчество";
-            }
+            }//todo swith case
             System.out.printf("Введите %s\n", choice);
             userStringData[i] = readFromConsole();
             if (userStringData[i].matches("[а-яА-Я]+")) {
@@ -70,7 +70,7 @@ public class InitParamsImpl implements InitParams {
                 choice = "месяц";
             } else {
                 choice = "день";
-            }
+            }//todo swith case
             System.out.printf("Введите %s\n", choice);
             try {
                 userBirthdayParams[i] = Integer.parseInt(readFromConsole());
