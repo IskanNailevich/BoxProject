@@ -28,6 +28,7 @@ public class UserServiceStreamImpl implements UserService {
     /**
      * Возвращает айди пользователя введеного с консоли
      * есть параметр строка - указываем для каких целей нужно айди
+     *
      * @param s
      * @return
      */
@@ -46,6 +47,7 @@ public class UserServiceStreamImpl implements UserService {
 
     /**
      * возвращает последний айди в списке, для добавления юзера
+     *
      * @return
      */
     private int returnId() {
@@ -62,6 +64,7 @@ public class UserServiceStreamImpl implements UserService {
      * Проводит валидацию всех параметров, кроме айди
      * создает юзера
      * отправляет юзера в файл
+     *
      * @param id
      * @param arrayFullName
      * @param arrayBirthday
@@ -123,8 +126,7 @@ public class UserServiceStreamImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         List<String> listFromFile = workWithFIleService.getListFromFile();
-        List<User> users = listConverter.stringToUsers(listFromFile); //todo вернуть сразу без создания объекта
-        return users;
+        return listConverter.stringToUsers(listFromFile);
     }
 
     //METHODS FOR UPDATE----------------------------------------------------------------------------------------------------------------
@@ -143,6 +145,7 @@ public class UserServiceStreamImpl implements UserService {
      * Принимает пользователя, которого надо обновить И выбор цифры с консоли
      * создает копию пользователя, которого надо обновить, меняет в нем необходимые данные в зависимости от выбора
      * и отправляет в файл обнолвенный лист сюзеров с копией
+     *
      * @param userForUpdate
      * @param choice
      */
@@ -176,23 +179,13 @@ public class UserServiceStreamImpl implements UserService {
 
         List<User> listWithoutUpdatedUser = returnListWithoutUser(updateId);
 
-        System.out.println(delimiter);
-        System.out.println(listWithoutUpdatedUser);
-        System.out.println(delimiter);
-
         for (int i = 0; i <= listWithoutUpdatedUser.size(); i++) {
             boolean tmp = i != 0;
             if (i == userForUpdate.getId() - 1) {
-                System.out.println(delimiter);
                 createAndValidate(updateId - 1, arrayFullName, arrayBirthday, sex);
-                System.out.println(delimiter);
-                System.out.println(getAllUsers());
             }
-            if(i != listWithoutUpdatedUser.size()) {
+            if (i != listWithoutUpdatedUser.size()) {
                 workWithFIleService.writeUserDataToFile(listWithoutUpdatedUser.get(i), tmp);
-                System.out.println(delimiter);
-                System.out.println(getAllUsers());
-                System.out.println(delimiter);
             }
         }
         System.out.println("Успешно обновили данные пользователя");
@@ -216,6 +209,7 @@ public class UserServiceStreamImpl implements UserService {
     /**
      * В переданном листе уменьшает значение айди всех пользователей, которые идут после указанного id.
      * Уменьшают на 1.
+     *
      * @param
      * @param id
      */
@@ -228,9 +222,10 @@ public class UserServiceStreamImpl implements UserService {
     }
 
     /**
-     * Принимает айди и возвращает список юзеров, без этого пользователя
-     * @param id
-     * @return
+     *
+     *
+     * @param id Айди пользователя
+     * @return Список юзеров
      */
     private List<User> returnListWithoutUser(int id) {
         User keyUser = getById(id);
