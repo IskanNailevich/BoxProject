@@ -23,9 +23,9 @@ public class InitParamsImpl implements InitParams {
 
     @Override
     public String sexParams() {
-        //    System.out.println("Начало работы метода по параметру пола");
+        //System.out.println("Начало работы метода по параметру пола");
         System.out.println("Введите ваш пол (М или Ж)");
-        String inputSex = null;
+        String inputSex;
         inputSex = readFromConsole();
         //  System.out.println("Успешно прочитали параметр пола: " + inputSex);
         return inputSex;
@@ -33,10 +33,10 @@ public class InitParamsImpl implements InitParams {
 
     @Override
     public String[] fullNameParams() {
-        //  System.out.println("Начало работы метода по добавлению строк для ФИО");
+        //System.out.println("Начало работы метода по добавлению строк для ФИО");
         String[] userStringData = new String[3];
         for (int i = 0; i < 3; ) {
-            String choice = null;
+            String choice;
             switch (i) {
                 case 0:
                     choice = "фамилию";
@@ -66,7 +66,7 @@ public class InitParamsImpl implements InitParams {
         //System.out.println("Начало работы метода по добавлению чисел, для дальнейшего даты рождения");
         int[] userBirthdayParams = new int[3];
         for (int i = 0; i < 3; ) {
-            String choice = null;
+            String choice;
             switch (i) {
                 case 0:
                     choice = "год рождения";
