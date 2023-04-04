@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
 public class ListConverterImpl implements ListConverter {
     //private static final String delimiter = "-----------------------------------------------------------------------------";
     @Override
@@ -21,9 +20,10 @@ public class ListConverterImpl implements ListConverter {
     }
 
     /**
-     * У полученного листа разделяем юзеров по запятой
-     * @param list
-     * @return
+     * У полученного листа разделяем пользователей по " , ".
+     *
+     * @param list Лист со строками которых надо разделить по " , ".
+     * @return Лист с пользователями после разделения по " , ".
      */
     private List<User> splitParams(List<String> list) {
         List<User> usersResult = new ArrayList<>();
@@ -32,7 +32,6 @@ public class ListConverterImpl implements ListConverter {
         //   System.out.println("Сплитим параметры по запятой");
         for (String user : list) {
             String[] splitParam = user.split(",");
-
 //            System.out.println("Отображение каждого пользователя после слпита: ");
 //            for (String s : splitParam) {
 //                System.out.println("Элемент слпита : " + s);
@@ -49,14 +48,14 @@ public class ListConverterImpl implements ListConverter {
         return usersResult;
     }
 
-
     /**
-     * Из листа полученных юзеров
-     * фильруем чтобы было слово User
+     * Из листа полученных пользователей.
+     * Фильруем чтобы было слово User.
      * Обрезаем по фигурным скобкам -> {}
-     * Возвращаем параметры в виде List<String>
-     * @param list
-     * @return
+     * Возвращаем параметры в виде List<String>.
+     *
+     * @param list Лист с пользователями.
+     * @return Лист пользователями после разделения.
      */
     private List<String> getUsersParams(List<String> list) {
         Stream<String> user = list.stream()
@@ -76,10 +75,11 @@ public class ListConverterImpl implements ListConverter {
     }
 
     /**
-     * Достаем значения из переданного массива параметров и добавляем их в Строчный и Чилсенный массив
-     * @param splitParam
-     * @param stringsArr
-     * @param intsArr
+     * Достаем значения из переданного массива параметров и добавляем их в строчный и численный массив.
+     *
+     * @param splitParam Массив с значениями после удаления символа " ' ".
+     * @param stringsArr Массив с значениями после удаления символа " = ".
+     * @param intsArr    Массив с значениями даты.
      */
     private void substringParamBySplitDelimiter(String[] splitParam, String[] stringsArr, int[] intsArr) {
         //    System.out.println("Выделяем подстроку из элемента сплита по ' ");

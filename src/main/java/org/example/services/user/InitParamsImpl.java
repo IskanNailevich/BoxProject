@@ -37,13 +37,17 @@ public class InitParamsImpl implements InitParams {
         String[] userStringData = new String[3];
         for (int i = 0; i < 3; ) {
             String choice = null;
-            if (i == 0) {
-                choice = "фамилию";
-            } else if (i == 1) {
-                choice = "имя";
-            } else {
-                choice = "отчество";
-            }//todo swith case
+            switch (i) {
+                case 0:
+                    choice = "фамилию";
+                    break;
+                case 1:
+                    choice = "имя";
+                    break;
+                default:
+                    choice = "отчество";
+                    break;
+            }
             System.out.printf("Введите %s\n", choice);
             userStringData[i] = readFromConsole();
             if (userStringData[i].matches("[а-яА-Я]+")) {
@@ -55,7 +59,6 @@ public class InitParamsImpl implements InitParams {
         }
         // System.out.println("Успешно собрали строки для ФИО, возвращаем массив строк");
         return userStringData;
-
     }
 
     @Override
@@ -64,24 +67,27 @@ public class InitParamsImpl implements InitParams {
         int[] userBirthdayParams = new int[3];
         for (int i = 0; i < 3; ) {
             String choice = null;
-            if (i == 0) {
-                choice = "год рождения";
-            } else if (i == 1) {
-                choice = "месяц";
-            } else {
-                choice = "день";
-            }//todo swith case
+            switch (i) {
+                case 0:
+                    choice = "год рождения";
+                    break;
+                case 1:
+                    choice = "месяц";
+                    break;
+                default:
+                    choice = "день";
+                    break;
+            }
             System.out.printf("Введите %s\n", choice);
             try {
                 userBirthdayParams[i] = Integer.parseInt(readFromConsole());
-                //     System.out.println("Успешно считали число: " + userBirthdayParams[i]);
                 i++;
             } catch (Exception e) {
-                System.out.println("ошибка, вы ввели неправильное число");
+                System.out.println("Ошибка, вы ввели неправильное число");
             }
         }
-        //System.out.println("Успешно собрали числа для даты рождения, возвращаем массив чисел");
         return userBirthdayParams;
-
     }
 }
+
+

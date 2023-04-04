@@ -11,20 +11,6 @@ public class WorkWithFileImpl implements WorkWithFIle {
 
     public static final String FILE_NAME = "/Users/ruslanmuhametzanov/ideaFiles/output";
 
-    private String readFromFile(String path) {
-        String resultRead = "";
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
-            resultRead = bufferedReader.readLine();
-        } catch (IOException e) {
-            System.out.println("Ошибка при прочтении с файла " + e);
-        }
-        if (resultRead == null) {
-            System.out.println("\t\t\tФайл пуст при первичном считывании\n\n");
-            resultRead = "";
-        }
-        return resultRead;
-    }
-
     @Override
     public List<String> getListFromFile() {
         List<String> resultList;
@@ -41,7 +27,6 @@ public class WorkWithFileImpl implements WorkWithFIle {
             //System.out.println("Элемент массива = " + substring);
         }
         resultList = Arrays.stream(splitParam).collect(Collectors.toList());
-
         return resultList;
     }
 
@@ -56,5 +41,19 @@ public class WorkWithFileImpl implements WorkWithFIle {
             System.out.println("Ошибка записи в файл" + e);
             throw new RuntimeException(e);
         }
+    }
+
+    private String readFromFile(String path) {
+        String resultRead = "";
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
+            resultRead = bufferedReader.readLine();
+        } catch (IOException e) {
+            System.out.println("Ошибка при прочтении с файла " + e);
+        }
+        if (resultRead == null) {
+            System.out.println("\t\t\tФайл пуст при первичном считывании\n\n");
+            resultRead = "";
+        }
+        return resultRead;
     }
 }

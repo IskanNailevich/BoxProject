@@ -14,8 +14,6 @@ public class ValidateParamsImpl implements ValidateParams {
     private static final String FEMALE = "Ж";
     private static final String FEMALE_LOWERCASE = "ж";
     private final String DATE_PATTERN = "yyyy-M-d";
-    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN, Locale.ENGLISH);
-
 
     @Override
     public boolean validateSexParams(String sex) {
@@ -47,6 +45,7 @@ public class ValidateParamsImpl implements ValidateParams {
 
     @Override
     public boolean validateBirthdayParams(int[] dateArray) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN, Locale.ENGLISH);
         //   System.out.println("Начало проверки массива чисел");
         //    System.out.println("проверяем массива чисел даты рождения на соотвтествие с реальными датами");
         String tmpDataCheck = "";
