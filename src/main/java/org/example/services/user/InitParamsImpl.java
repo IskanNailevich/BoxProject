@@ -20,7 +20,6 @@ public class InitParamsImpl implements InitParams {
         return line;
     }
 
-
     @Override
     public String sexParams() {
         //System.out.println("Начало работы метода по параметру пола");
