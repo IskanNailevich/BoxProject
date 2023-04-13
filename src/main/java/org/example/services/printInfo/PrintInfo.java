@@ -33,10 +33,13 @@ public class PrintInfo {
         int choice = 0;
         String keyboard = "";
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Добро пожаловать!\nПожалуйста введите что вы хотите сделать:\n\t1-создать пользователя\n\t2-получить пользователя\n" +
-                "\t3-обновить данные пользователя\n\t4-удалить пользователя\n\t5-получить всех пользователей");
+        System.out.println("Добро пожаловать!");
         while (!keyboard.equals("exit")) {
             try {
+                System.out.println("\nДля продолжения работы, наберите от 1 до 5:" +
+                        "\n\t1-создать пользователя\n\t2-получить пользователя\n" +
+                        "\t3-обновить данные пользователя\n\t4-удалить пользователя\n\t5-получить всех пользователей\n" +
+                        "Для выхода наберите \"exit\"");
                 keyboard = reader.readLine();
                 if (!keyboard.equals("exit")) {
                     choice = Integer.parseInt(keyboard);
@@ -65,10 +68,7 @@ public class PrintInfo {
                             System.out.println("Ошибка, введите от 1 до 5");
                             break;
                     }
-                    System.out.println("\n\nДля продолжения работы, наберите от 1 до 5:" +
-                            "\n\t1-создать пользователя\n\t2-получить пользователя\n" +
-                            "\t3-обновить данные пользователя\n\t4-удалить пользователя\n\t5-получить всех пользователей\n" +
-                            "Для выхода наберите \"exit\"");
+
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Пожалуйста введите число");
