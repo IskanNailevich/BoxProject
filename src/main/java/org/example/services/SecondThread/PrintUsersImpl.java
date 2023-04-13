@@ -8,7 +8,7 @@ public class PrintUsersImpl extends Thread implements PrintUsers{
 
     UserService userService = new UserServiceStreamImpl();
     public void printInConsole() {
-        System.out.println("\nСейчас в файле " + userService.getAllUsers().size() + " пользователя:");
+        System.out.println("\nСейчас в файле количество пользователй составляет: " + userService.getAllUsers().size());
         for (User allUser : userService.getAllUsers()) {
             System.out.println(allUser);
         }
@@ -20,7 +20,7 @@ public class PrintUsersImpl extends Thread implements PrintUsers{
         while (true){
             printInConsole();
             try {
-                Thread.sleep(5000);
+                Thread.sleep(15000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
