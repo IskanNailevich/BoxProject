@@ -7,5 +7,4 @@ public interface PrintUsers {
      * в консоль список всех пользователей
      */
     void printInConsole();
-
 }

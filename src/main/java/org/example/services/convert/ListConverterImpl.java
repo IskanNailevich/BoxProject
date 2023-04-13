@@ -1,6 +1,8 @@
 package org.example.services.convert;
 
 import org.example.utilClasses.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,14 +11,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ListConverterImpl implements ListConverter {
-    //private static final String delimiter = "-----------------------------------------------------------------------------";
+    private static final Logger LOGGER = LoggerFactory.getLogger(ListConverterImpl.class);
+
     @Override
     public List<User> stringToUsers(List<String> list) {
-        //   System.out.println("Старт работы конвертера со стринга на юзер лист");
+        LOGGER.info("Начал работу метод преобразования строки пользователей в отдельный объект!");
         List<String> usersParams = getUsersParams(list);
-        List<User> usersResult = splitParams(usersParams);
-        //System.out.println("Конвертер успешно завершил работу");
-        return usersResult;
+        LOGGER.info("Метод по преобразованию в объект закончил работу!");
+        return splitParams(usersParams);
     }
 
     /**
@@ -26,25 +28,20 @@ public class ListConverterImpl implements ListConverter {
      * @return Лист с пользователями после разделения по " , ".
      */
     private List<User> splitParams(List<String> list) {
+        LOGGER.info("Начал работу метод по разделению пользователей по запятой!");
         List<User> usersResult = new ArrayList<>();
         String[] stringsArr = new String[6];
         int[] intsArr = new int[3];
-        //   System.out.println("Сплитим параметры по запятой");
         for (String user : list) {
             String[] splitParam = user.split(",");
-//            System.out.println("Отображение каждого пользователя после слпита: ");
-//            for (String s : splitParam) {
-//                System.out.println("Элемент слпита : " + s);
-//            }
-            //        System.out.println(delimiter);
             substringParamBySplitDelimiter(splitParam, stringsArr, intsArr);
-
             usersResult.add(new User(Integer.parseInt(stringsArr[0]), stringsArr[1],
                     stringsArr[2],
                     stringsArr[3],
                     LocalDate.of(intsArr[0], intsArr[1], intsArr[2]),
                     stringsArr[5]));
         }
+        LOGGER.info("Метод по разделению закончил работу!");
         return usersResult;
     }
 
@@ -58,19 +55,16 @@ public class ListConverterImpl implements ListConverter {
      * @return Лист пользователями после разделения.
      */
     private List<String> getUsersParams(List<String> list) {
+        LOGGER.info("Начал работу етод по филитрации пользователей по слову User начал работу!");
         Stream<String> user = list.stream()
                 .filter(x -> x.contains("User"));
-        //       .peek(x -> System.out.println("Пользователь = " + x));
-        //   System.out.println("Получили отфильтрованный список стринг 1 этап: ");
         Stream<String> stringStream = user.map(x -> {
             int open = x.indexOf("{") + 1;
             int close = x.indexOf("}");
             return x.substring(open, close);
         });
-        //    System.out.println(delimiter);
-        //   System.out.println("Оставляем пользователя только с его параметрами");
+        LOGGER.info("Метод по фильтрации закончил работу!");
         return stringStream
-                //   .peek(System.out::println)
                 .collect(Collectors.toList());
     }
 
@@ -82,7 +76,7 @@ public class ListConverterImpl implements ListConverter {
      * @param intsArr    Массив с значениями даты.
      */
     private void substringParamBySplitDelimiter(String[] splitParam, String[] stringsArr, int[] intsArr) {
-        //    System.out.println("Выделяем подстроку из элемента сплита по ' ");
+        LOGGER.info("Начал работу метод па работе со значениями из массивов начал работу!");
         for (int i = 0; i < splitParam.length; i++) {
             String resultParam;
             if (splitParam[i].contains("'")) {
@@ -95,7 +89,7 @@ public class ListConverterImpl implements ListConverter {
                     intsArr[j] = Integer.parseInt(dateSplit[j]);
                 }
             }
-            //  System.out.println("Подстрока: " + resultParam);
         }
+        LOGGER.info("Метод по работе с массивами закончил работу!");
     }
 }
