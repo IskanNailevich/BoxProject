@@ -1,5 +1,7 @@
 package org.example.services.printInfo;
 
+import org.example.services.SecondThread.PrintUsers;
+import org.example.services.SecondThread.PrintUsersImpl;
 import org.example.services.user.UserService;
 import org.example.services.user.UserServiceStreamImpl;
 import org.example.utilClasses.User;
@@ -10,6 +12,11 @@ import java.io.InputStreamReader;
 
 public class PrintInfo {
     private UserService userServiceStream = new UserServiceStreamImpl();
+    private PrintUsersImpl printUsers = new PrintUsersImpl();
+
+    public void print() {
+        printUsers.start();
+    }
 
     /**
      * Метод для старта всего функционала.
@@ -18,7 +25,6 @@ public class PrintInfo {
         int choice;
         String keyboard = "";
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
         System.out.println("Добро пожаловать!\nПожалуйста введите что вы хотите сделать:\n\t1-создать пользователя\n\t2-получить пользователя\n" +
                 "\t3-обновить данные пользователя\n\t4-удалить пользователя\n\t5-получить всех пользователей");
 
